@@ -49,7 +49,9 @@ conda info --envs
 
 Project developed as part of **PAD 2025 – Genomic Sequence Clustering** coursework.  
 Contributors: 
+
 *Michael Lichtensteiger*
+
 *Cornel Niederhauser*
 
 ---
