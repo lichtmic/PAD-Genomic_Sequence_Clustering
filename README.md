@@ -7,6 +7,7 @@ The project is implemented in **Python** and structured into four modules (`P1.p
 
 ## 📁 Project Structure
 
+```
 PAD-Genomic_Sequence_Clustering/
 ├─ P1.py          # Sequence file parsing  
 ├─ P2.py          # Pairwise alignment using Dynamic Programming  
@@ -15,6 +16,8 @@ PAD-Genomic_Sequence_Clustering/
 ├─ environment.yml 
 ├─ data/ 
 └─ README.md  
+```
+
 
 ---
 
@@ -30,17 +33,11 @@ conda env create -f environment.yml
 
 ### 2️⃣ Activate the environment
 
-conda activate project2025
-
-css
-Code kopieren
+conda activate pad2025
 
 To verify the active environment:
 
 conda info --envs
-
-yaml
-Code kopieren
 
 
 ---
