@@ -47,7 +47,8 @@ conda info --envs
 
 ## 🧑‍💻 Authors
 
-Project developed as part of **PAD 2025 – Genomic Sequence Clustering** coursework.  
+Project developed as part of **ACLS — Programming, Algorithms and Data Structures** coursework.  
+
 Contributors: 
 
 *Michael Lichtensteiger*
