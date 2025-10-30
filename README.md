@@ -29,30 +29,35 @@ This project uses **Anaconda** to manage dependencies.
 
 If this is your first time setting up the project, run:
 
+```
 conda env create -f environment.yml
-
+```
 ### 2️⃣ Activate the environment
 
+```
 conda activate pad2025
-
+```
 To verify the active environment:
 
+```
 conda info --envs
-
+```
 
 ---
 
 ## 🧑‍💻 Authors
 
 Project developed as part of **PAD 2025 – Genomic Sequence Clustering** coursework.  
-Contributors: *[Your Name(s)]*
+Contributors: 
+*Michael Lichtensteiger*
+*Cornel Niederhauser*
 
 ---
 
 ## 🧾 Notes
 
 - All modules raise `ValueError("malformed input")` for invalid inputs, following the assignment rules.  
-- The project is compatible with **Python 3.11**.  
+- The project is compatible with **Python 3.12.4**.  
 - The file structure and naming must be preserved for submission.  
 
 ---
