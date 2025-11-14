@@ -16,6 +16,13 @@ def ensure(condition):
 def validate_alignment_map(
     alignment_map: Dict[Tuple[int, int], Tuple[str, str]],
 ) -> Tuple[List[int], Dict[Tuple[int, int], Tuple[str, str]]]:
+    """Normalise and validate the input alignment dictionary.
+
+    Ensures keys are ordered integer pairs, values are equal-length strings
+    containing only valid characters, every pair occurs exactly once, and
+    returns the sorted list of sequence IDs alongside the cleaned mapping.
+    """
+
     # input is a dict that is not empty
     ensure(isinstance(alignment_map, dict) and alignment_map)
 
@@ -66,6 +73,8 @@ def validate_alignment_map(
 
 
 def compute_dist(aligned_a, aligned_b):
+    """Return the Jukes-Cantor distance between two aligned sequences."""
+
     comparable = 0
     mismatches = 0
 
