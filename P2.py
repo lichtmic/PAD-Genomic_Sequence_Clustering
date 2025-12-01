@@ -1,6 +1,22 @@
 import numpy as np
 
 def input_check(list_of_pairs):
+    """
+    Validate input format and clean sequences.
+    
+    Checks that input is a list of tuples where each tuple contains
+    two strings (label, sequence). Cleans sequences by removing spaces
+    and converting to uppercase.
+    
+    Args:
+        list_of_pairs (list[tuple[str, str]]): List of (label, sequence) pairs
+        
+    Returns:
+        list[tuple[str, str]]: Cleaned list of (label, sequence) pairs
+        
+    Raises:
+        Exception: If input format is invalid, raises "malformed input"
+    """
     if not isinstance(list_of_pairs, list):
         raise Exception("malformed input")
     if not all(isinstance(pair, tuple) and len(pair) == 2 for pair in list_of_pairs):
@@ -12,6 +28,15 @@ def input_check(list_of_pairs):
         return cleaned
     
 def generate_all_pairs(list_of_pairs):
+    """
+    Generate all unique index pairs (i, j) for given list of pairs.
+    
+    Args:
+        list_of_pairs (list[tuple[str, str]]): List of (label, sequence) pairs
+        
+    Returns:
+        list[tuple[int, int]]: List of unique index pairs (i, j) with i < j
+    """
     n = len(list_of_pairs)
     pairs = []
     # Generate all unique index pairs (i, j) with i < j
@@ -21,6 +46,25 @@ def generate_all_pairs(list_of_pairs):
     return pairs
 
 def fill_matrix(seq1, seq2, match=5, mismatch=-2, gap=-6):
+    """
+    Fill dynamic programming matrix for sequence alignment.
+    
+    Implements a dynamic programming algorithm to find
+    the optimal global alignment between two sequences.
+    
+    Args:
+        seq1 (str): First nucleotide sequence
+        seq2 (str): Second nucleotide sequence
+        match (int, optional): Score for matching nucleotides. Default: 5
+        mismatch (int, optional): Score for mismatched nucleotides. Default: -2
+        gap (int, optional): Penalty for gaps. Default: -6
+        
+    Returns:
+        tuple[np.ndarray, np.ndarray]: A tuple containing:
+            - score: (m+1 × n+1) matrix of alignment scores
+            - traceback: (m+1 × n+1) matrix of traceback directions
+                         (0=diagonal, 1=up, 2=left)
+    """
     m, n = len(seq1), len(seq2)
     score = np.zeros((m + 1, n + 1))
     traceback = np.zeros((m + 1, n + 1), dtype=int)
@@ -59,9 +103,26 @@ def fill_matrix(seq1, seq2, match=5, mismatch=-2, gap=-6):
     
     return score, traceback
 
-def align_sequences_with_DP(seq1, seq2):
-    score, traceback = fill_matrix(seq1, seq2)
+def traceback(seq1, seq2, traceback): 
+    """
+    Reconstruct optimal alignment by tracing back through dynamic programming matrix.
     
+    Starts from the bottom-right corner of the traceback matrix and
+    follows the path of traceback directions back to the origin, building
+    the aligned sequences with gaps as needed.
+    
+    Args:
+        seq1 (str): First nucleotide sequence
+        seq2 (str): Second nucleotide sequence
+        traceback (np.ndarray): Matrix of traceback directions where
+                                0=diagonal, 1=up, 2=left
+        
+    Returns:
+        tuple[str, str]: Aligned versions of seq1 and seq2 with gaps ('-')
+                        inserted to show optimal alignment. Both aligned
+                        sequences have the same length.
+
+    """
     aligned1 = []
     aligned2 = []
     i, j = len(seq1), len(seq2)
@@ -94,7 +155,44 @@ def align_sequences_with_DP(seq1, seq2):
     
     return ''.join(aligned1), ''.join(aligned2)
 
+def align_sequences_with_DP(seq1, seq2):
+    """
+    Align two sequences using dynamic programming.
+    
+    Combines the matrix filling and traceback steps to produce
+    the optimal global alignment of two nucleotide sequences.
+    
+    Args:
+        seq1 (str): First nucleotide sequence
+        seq2 (str): Second nucleotide sequence
+        
+    Returns:
+        tuple[str, str]: Aligned versions of seq1 and seq2 with gaps
+        
+    """
+
+    score, traceback = fill_matrix(seq1, seq2)
+    return traceback(seq1, seq2, traceback)
+
 def AlignByDP(list_of_pairs):   # Main function to align sequences by dynamic programming
+    """
+    Align all pairwise combinations of sequences using dynamic programming.
+    
+    Takes a list of (label, sequence) pairs and performs optimal global
+    alignment on each unique pair using a dynamic programming algorithm
+    with scoring parameters: match=+5, mismatch=-2, gap=-6.
+    
+    Args:
+        list_of_pairs (list[tuple[str, str]]): List of (label, sequence) pairs
+        
+    Returns:
+        dict[tuple[int, int], tuple[str, str]]: Dictionary where keys are
+            index pairs (i, j) and values are tuples of aligned sequences
+            with gaps inserted. Both sequences in each pair have equal length.
+            
+    Raises:
+        Exception: If input format is invalid, raises "malformed input"
+    """
     sequences = input_check(list_of_pairs)
     results = {}
     for i, j in generate_all_pairs(sequences):
